@@ -2,7 +2,7 @@ package math;
 
 class Main { 
 	public static void main(String[] args) {
-		B3053 b = new B3053();
+		B1002 b = new B1002();
 		b.sol();
 	}
 }
