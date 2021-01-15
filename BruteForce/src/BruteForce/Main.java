@@ -1,8 +1,8 @@
-package Recursion;
+package BruteForce;
 
 class Main {
 	public static void main(String[] args) {
-		B2447 b = new B2447();
+		B2231 b = new B2231();
 		b.sol();
 	}
 }
