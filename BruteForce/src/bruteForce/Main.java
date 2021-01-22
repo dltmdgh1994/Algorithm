@@ -1,8 +1,8 @@
-package BruteForce;
+package bruteForce;
 
 class Main {
 	public static void main(String[] args) {
-		B7568 b = new B7568();
+		B1436 b = new B1436();
 		b.sol();
 	}
 }
