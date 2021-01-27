@@ -2,7 +2,7 @@ package sorting;
 
 class Main {
 	public static void main(String[] args) {
-		B2108 b = new B2108();
+		B10814 b = new B10814();
 		b.sol();
 	}
 }
