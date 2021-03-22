@@ -1,12 +1,12 @@
 package Backtracking;
 
 import java.io.*;
+import java.util.*;
 
 class B2580 { // 스도쿠
 	BufferedReader br;
 	BufferedWriter bw;
 	
-	int cnt = 0;
 	int[][] arr;
 	
 	public void sol() {
@@ -22,7 +22,7 @@ class B2580 { // 스도쿠
 				}
 			}
 			
-			
+			backtracking(0, 0);
 			
 			for(int i = 0; i < 9; i++) {
 				for(int j = 0; j < 9; j++) {
@@ -30,7 +30,6 @@ class B2580 { // 스도쿠
 				}
 				bw.newLine();
 			}
-			
 			
 			br.close();
 			bw.close();
@@ -40,41 +39,46 @@ class B2580 { // 스도쿠
 		}
 	}
 	
-	// queen을 배치할 때 미리 가지치기를 해서 빠르게 수행
-	private void backtracking(int pos) {
+	private void backtracking(int row, int col) {
 		
-//		if(pos == num) {
-//			//서로 공격할 수 없는 경우만 도달
-//			cnt++;
-//			
+		if(row == 9 && col == 9) {
+			return;
+		}
+		
+	}
+	
+	
+//	private void backtracking(int pos) {
+//		
+//		if(pos == 9) {
 //			return;
 //		}
 //		
-//		boolean flag;
-//		
-//		for(int i = 0; i < num; i++) {
-//			
-//			flag= true;
-//			
-//			for(int j = 0; j <pos; j++) {
-//				//같은 열 확인
-//				if(arr[j] == i) {
-//					flag = false;
-//					break;
-//				}
-//				
-//				//대각선 확인
-//				if(arr[j] - i == j - pos || arr[j] - i == pos - j) {
-//					flag = false;
-//					break;
-//				}
-//			}
-//			
-//			if(flag) {
-//				arr[pos] = i;
-//				backtracking(pos+1);
+//		Queue<Integer> q1 = new LinkedList<>();
+//		for(int i = 0; i < 9; i++) {
+//			if(arr[pos][i] == 0) {
+//				q1.add(i);
 //			}
 //		}
-	}
-	
+//		
+//		if(q1.size() >= 1) {
+//			int n = q1.poll();
+//			int sum = 0;
+//			Queue<Integer> q2 = new LinkedList<>();
+//			
+//			for(int j = 0; j < 9; j++) {
+//				sum += arr[j][n];
+//				if(arr[j][n] == 0) {
+//					q2.add(j);
+//				}
+//			}
+//			
+//			if(q2.size() == 1) {
+//				arr[q2.poll()][n] = 45 - sum;
+//			}
+//		}
+//		
+//		backtracking(pos+1);
+//	}
 }
+
