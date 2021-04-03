@@ -10,7 +10,7 @@ class B10870 { //피보나치
 			
 			int num = Integer.parseInt(br.readLine());
 					
-			bw.write(Integer.toString(pivo(num)));
+			bw.write(Integer.toString(fibo(num)));
 			bw.newLine();
 			
 			br.close();
@@ -21,13 +21,13 @@ class B10870 { //피보나치
 		}
 	}
 	
-	private int pivo(int num) {
+	private int fibo(int num) {
 		if(num == 0) {
 			return 0;
 		}else if(num == 1) {
 			return 1;
 		}else {
-			return pivo(num-1) + pivo(num-2);
+			return fibo(num-1) + fibo(num-2);
 		}
 	}
 }
