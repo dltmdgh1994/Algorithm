@@ -2,7 +2,7 @@ package Backtracking;
 
 class Main {
 	public static void main(String[] args) {
-		B14888 b = new B14888();
+		B14889 b = new B14889();
 		b.sol();
 	}
 }
