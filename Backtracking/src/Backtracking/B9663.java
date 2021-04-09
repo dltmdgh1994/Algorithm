@@ -56,6 +56,7 @@ class B9663 { // N-Queen
 				//대각선 확인
 				if(arr[j] - i == j - pos || arr[j] - i == pos - j) {
 					flag = false;
+					
 					break;
 				}
 			}
