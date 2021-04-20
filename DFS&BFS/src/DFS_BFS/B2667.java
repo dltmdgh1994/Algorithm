@@ -2,13 +2,14 @@ package DFS_BFS;
 
 import java.io.*;
 import java.util.*;
-
-//5
-//11000
-//10000
-//10000
-//10000
-//00000
+/*
+5
+11000
+10000
+10000
+10000
+00000
+*/
 
 class B2667 { // 단지 번호 붙이기
 	BufferedReader br;
@@ -37,8 +38,7 @@ class B2667 { // 단지 번호 붙이기
 			for(int i = 0; i < n; i++) {
 				for(int j = 0; j < n; j++) {
 					if(arr[i][j] != 0) {
-						int a = dfs(i, j);
-						ans.add(a);
+						ans.add(dfs(i, j));
 					}
 				}
 			}
@@ -75,13 +75,18 @@ class B2667 { // 단지 번호 붙이기
 			temp.add(col);
 			stack.push(temp);
 			
-			List<Integer> temp2 = new ArrayList<>();
-			temp2.add(xy.get(0));
-			temp2.add(xy.get(1));
-			stack.push(temp2);
+//			System.out.println("push : " + temp.get(0) + " " + temp.get(1));
+//			System.out.println();
+		}else {
+			return cnt;
 		}
 		
-		while(!stack.isEmpty()) {
+		// stack이 비거나 현재 좌표 주변에 건물이 없거나
+		while((!stack.isEmpty()) || (check(xy.get(0), xy.get(1)).get(0) != -1)) {
+			
+//				for(int i = 0; i < stack.size(); i++) {
+//				System.out.println(stack.get(i));
+//			}
 			
 			if(arr[xy.get(0)][xy.get(1)] == 1) {
 				arr[xy.get(0)][xy.get(1)] = 0;
@@ -95,15 +100,15 @@ class B2667 { // 단지 번호 붙이기
 //				System.out.println();
 //			}
 //			System.out.println();
-//			
+			
 			List<Integer> temp = check(xy.get(0), xy.get(1));
 			
 			if(temp.get(0) != -1) {
 				// stack.push(xy); 이런식으로 하니까 xy 값이 바뀌면 stack 내부 값도 바뀐다.
 				
 				List<Integer> temp2 = new ArrayList<>();
-				temp2.add(temp.get(0));
-				temp2.add(temp.get(1));
+				temp2.add(xy.get(0));
+				temp2.add(xy.get(1));
 				
 				//현재 위치 stack에 push
 				stack.push(temp2);
@@ -116,10 +121,6 @@ class B2667 { // 단지 번호 붙이기
 //				System.out.println();
 				
 			}else {
-//				for(int i = 0; i < stack.size(); i++) {
-//					System.out.println(stack.get(i));
-//				}
-				
 				// 전의 위치를 stack에서 pop
 				List<Integer> temp1 = stack.pop();
 				
