@@ -2,13 +2,11 @@ package Programmers;
 
 public class P12899 { // 124 나라의 숫자
 	public static void main(String[] args) {
-		Solution sol = new Solution();
-		System.out.println(sol.solution(12));
+		P12899 p = new P12899();
+		System.out.println(p.solution(12));
 	}
-}
-
-class Solution {
-    public String solution(int n) {
+	
+	public String solution(int n) {
         String answer = "";
         
         int num = 1;
