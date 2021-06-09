@@ -1,4 +1,4 @@
-package Tree;
+package data_structure;
 
 class BinarySearchTree {
 	Node rootNode = null;
