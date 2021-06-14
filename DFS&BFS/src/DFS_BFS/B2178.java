@@ -3,7 +3,7 @@ package DFS_BFS;
 import java.util.*;
 import java.io.*;
 
-class B2178 {
+class B2178 { // 미로 찾기
 	BufferedReader br;
 	BufferedWriter bw;
 	
@@ -46,11 +46,12 @@ class B2178 {
 	// 처음에는 전역변수 cnt로 최단거리를 재려고 했음 => poll하면서 제대로 측정안됨
 	// Queue에 row, col뿐만 아니라 dist도 넣어서 최단거리 측정 
 	private int bfs(int row, int col, int w, int h) {
+		
+		boolean flag = false;
 
         Queue<int[]> que = new LinkedList<>();
         que.add(new int[]{row,col,1});
         visited[row][col] = true;
-        boolean flag = false;
 
         while(!que.isEmpty()){
         	
