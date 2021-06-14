@@ -9,7 +9,6 @@ class B2178 {
 	
 	int[][] arr;
 	boolean[][] visited;
-	int cnt = 0;
 	
 	int dx[] = {0,0,1,-1};
     int dy[] = {1,-1,0,0};
@@ -32,7 +31,7 @@ class B2178 {
 				}
 			}
 			
-			bfs(0, 0, w, h);
+			int cnt = bfs(0, 0, w, h);
 			
 			bw.write(Integer.toString(cnt));
 			
@@ -44,37 +43,48 @@ class B2178 {
 		}
 	}
 	
-	private void bfs(int row, int col, int w, int h) {
+	// 처음에는 전역변수 cnt로 최단거리를 재려고 했음 => poll하면서 제대로 측정안됨
+	// Queue에 row, col뿐만 아니라 dist도 넣어서 최단거리 측정 
+	private int bfs(int row, int col, int w, int h) {
 
         Queue<int[]> que = new LinkedList<>();
-        que.add(new int[]{row,col});
+        que.add(new int[]{row,col,1});
         visited[row][col] = true;
+        boolean flag = false;
 
         while(!que.isEmpty()){
-
-            int curX = que.peek()[0];
-            int curY = que.peek()[1];
+        	
+        	int q[] = que.peek();
+            int curX = q[0];
+            int curY = q[1];
+            int dist = q[2];
             que.poll();
-            
-            cnt++;
+//          cnt++;
 
             for(int i=0; i<4; i++){
                 int nx = curX + dx[i];
                 int ny = curY + dy[i];
                 
                 if(nx == h-1 && ny == w-1) {
-                	cnt++;
-                	return;
+//                	cnt++;
+//                	return;
+                	flag = true;
+                	break;
                 }
 
                 if(nx >= 0 && ny >= 0 && nx < h && ny < w){
                     if(arr[nx][ny] == 1 && !visited[nx][ny]){
-                        que.add(new int[]{nx,ny});
+                        que.add(new int[]{nx,ny,dist+1});
                         visited[nx][ny] = true;
                     }
                 }
             }
             
+            if(flag) {
+            	return dist+1;
+            }
         }
+        
+        return 0;
 	}
 }
