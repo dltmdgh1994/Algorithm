@@ -45,7 +45,7 @@ class B7569 {
 			
 			
 			// 동시다발적으로 BFS를 진행하기 때문에 Queue를 넘겨준다.
-			int ans = bfs(q, w, h);
+			int ans = bfs(q, w, h, z);
 			
 			boolean flag = false;
 			
@@ -73,7 +73,7 @@ class B7569 {
 		}
 	}
 	
-	private int bfs(Queue<int[]> q, int w, int h) {
+	private int bfs(Queue<int[]> q, int w, int h, int z) {
 		
         Queue<int[]> que = q;
         
@@ -84,17 +84,19 @@ class B7569 {
         	int xy[] = que.peek();
             int curX = xy[0];
             int curY = xy[1];
-            day = xy[2];
+            int curZ = xy[2];
+            day = xy[3];
             que.poll();
 
-            for(int i=0; i<4; i++){
+            for(int i=0; i<6; i++){
                 int nx = curX + dx[i];
                 int ny = curY + dy[i];
+                int nz = curZ + dz[i];
 
-                if(nx >= 0 && ny >= 0 && nx < h && ny < w){
-                    if(arr[nx][ny] == 0){
-                        que.add(new int[]{nx,ny,day+1});
-                        arr[nx][ny] = 1;
+                if(nx >= 0 && ny >= 0 && nz >= 0 && nx < h && ny < w && nz < z){
+                    if(arr[nz][nx][ny] == 0){
+                        que.add(new int[]{nx,ny,nz,day+1});
+                        arr[nz][nx][ny] = 1;
                     }
                 }
             }
