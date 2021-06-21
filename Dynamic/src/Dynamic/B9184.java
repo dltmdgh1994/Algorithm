@@ -25,6 +25,7 @@ class B9184 { // 신나는 함수 실행
 			
 			while(true) {
 				String s[] = br.readLine().split(" ");
+				
 				int a = Integer.parseInt(s[0]);
 				int b = Integer.parseInt(s[1]);
 				int c = Integer.parseInt(s[2]);
