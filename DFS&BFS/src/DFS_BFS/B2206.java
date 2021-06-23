@@ -3,7 +3,7 @@ package DFS_BFS;
 import java.io.*;
 import java.util.*;
 
-class B2206 {
+class B2206 { // 벽 부수고 이동하기
 	BufferedReader br;
 	BufferedWriter bw;
 	
