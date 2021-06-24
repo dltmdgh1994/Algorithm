@@ -2,7 +2,7 @@ package DFS_BFS;
 
 class Main {
 	public static void main(String[] args) {
-		B7562 b = new B7562();
+		B1707 b = new B1707();
 		b.sol();
 	}
 }
