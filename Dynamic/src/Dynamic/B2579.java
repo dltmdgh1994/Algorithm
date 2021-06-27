@@ -23,18 +23,27 @@ class B2579 { // 계단 오르기
 				step[i] = Integer.parseInt(br.readLine());
 			}
 			
-			result[0][0] = step[0];
-			result[1][0] = step[0] + step[1]; result[1][1] = result[1][0];
-			result[2][1] = step[0] + step[2]; result[2][0] = result[2][1];
-			
-			for(int i = 3; i < num; i++) {
-				result[i][0] = result[i-1][1] + step[i];
-				result[i][1] = ((result[i-2][0] >= result[i-2][1]) ? result[i-2][0] : result[i-2][1]) + step[i];
+			// 처음에 num이 2이하인 경우를 생각하지 못했다.
+			if(num == 1) {
+				bw.write(Integer.toString(step[0]));
+			}else if(num == 2) {
+				bw.write(Integer.toString(step[0] + step[1]));
+			}else {
+				result[0][0] = step[0];
+				result[1][0] = result[0][0] + step[1]; 
+				result[1][1] = step[1];
+				result[2][0] = result[1][1] + step[2]; 
+				result[2][1] = result[0][0] + step[2]; 
+				
+				for(int i = 3; i < num; i++) {
+					result[i][0] = result[i-1][1] + step[i];
+					result[i][1] = ((result[i-2][0] >= result[i-2][1]) ? result[i-2][0] : result[i-2][1]) + step[i];
+				}
+				
+				int ans = (result[num-1][0] >= result[num-1][1]) ? result[num-1][0] : result[num-1][1];
+				
+				bw.write(Integer.toString(ans));
 			}
-			
-			int ans = (result[num-1][0] >= result[num-1][1]) ? result[num-1][0] : result[num-1][1];
-			
-			bw.write(Integer.toString(ans));
 			
 			br.close();
 			bw.close();
