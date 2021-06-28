@@ -29,14 +29,16 @@ class B2579 { // 계단 오르기
 			}else if(num == 2) {
 				bw.write(Integer.toString(step[0] + step[1]));
 			}else {
-				result[0][0] = step[0];
-				result[1][0] = result[0][0] + step[1]; 
-				result[1][1] = step[1];
-				result[2][0] = result[1][1] + step[2]; 
-				result[2][1] = result[0][0] + step[2]; 
+				result[0][0] = step[0]; // 1점프 시작
+				result[1][0] = result[0][0] + step[1]; // 1점프 시작 + 1점프(시작은 점프가 x) 
+				result[1][1] = step[1]; // 2점프 시작
+				result[2][0] = result[1][1] + step[2]; // 2점프 시작 + 1점프 
+				result[2][1] = result[0][0] + step[2]; // 1점프 시작 + 2점프
 				
 				for(int i = 3; i < num; i++) {
+					// 1점프 뒤에는 2점프만 가능
 					result[i][0] = result[i-1][1] + step[i];
+					// 2점프 뒤에는 1점프, 2점프 둘다 가능
 					result[i][1] = ((result[i-2][0] >= result[i-2][1]) ? result[i-2][0] : result[i-2][1]) + step[i];
 				}
 				

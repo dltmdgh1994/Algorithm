@@ -12,9 +12,7 @@ class B1463 { // 1로 만들기
 	BufferedWriter bw;
 	
 	int[] dp;
-	boolean[] visited;
 	int num;
-	boolean flag = false;
 	
 	public void sol() {
 		try {
@@ -23,11 +21,10 @@ class B1463 { // 1로 만들기
 			
 			num = Integer.parseInt(br.readLine());
 			dp = new int[num+1];
-			visited = new boolean[num+1];
 			
-			f(1, 0);
+			f(num, 0);
 			
-			bw.write(Integer.toString(dp[num]));
+			bw.write(Integer.toString(dp[1]));
 
 			br.close();
 			bw.close();
@@ -37,23 +34,33 @@ class B1463 { // 1로 만들기
 		}
 	}
 	
+	// 처음에 1부터 num까지 증가하는 방식으로 진행 => 시간초과
+	// num에서 1까지 감소하는 방식으로 진행하니 맞았다. => 일정 단계를 거를 수 있음
 	private void f(int n, int cnt) {
-		if(n > num) {
+		if(n < 1) {
 			return;
-		}else if(visited[n]) {
-			return;
-		}else if(n == num){
-			flag = true;
-			dp[n] = cnt;
-			visited[n] = true;
-		}else if(!flag){
-			dp[n] = cnt;
-			visited[n] = true;
+		}else{
+			if(dp[n] == 0) {
+				dp[n] = cnt;
+			}else {
+				if(dp[n] < cnt) {
+					return;
+				}else {
+					dp[n] = cnt;
+				}
+			}
+			
 			cnt++;
 			
-			f(n*3, cnt);
-			f(n*2, cnt);
-			f(n+1, cnt);
+			if(n%3 == 0) {
+				f(n/3, cnt);
+			}
+			
+			if(n%2 == 0) {
+				f(n/2, cnt);
+			}
+
+			f(n-1, cnt);
 		}
 	}
 }
