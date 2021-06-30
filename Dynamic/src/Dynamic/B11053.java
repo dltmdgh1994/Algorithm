@@ -106,22 +106,6 @@ class B11053 { //가장 긴 증가하는 부분 수열
 //			
 //			bw.write(Integer.toString(ans));
 			
-//			int max = 0;
-//			int cnt = 0;
-//			for(int i = 0; i < num; i++) {
-//				int n = Integer.parseInt(s[i]);
-//				
-//				if(n > max) {
-//					max = n;
-//					cnt++;
-//				}
-//				
-//				if(max == 1000) {
-//					break;
-//				}
-//			}
-//			
-//			bw.write(Integer.toString(cnt));
 			
 			br.close();
 			bw.close();
