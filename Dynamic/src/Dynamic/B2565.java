@@ -23,61 +23,7 @@ class B2565 { // ภüฑ๊มู
 				dp[i][2] = 0;
 			}
 			
-			for(int i = 0; i < num; i++) {
-				int cnt = 0;
-				for(int j = 0; j < num; j++) {
-					if(i != j) {
-						if(dp[i][0] < dp[j][0] && dp[i][1] > dp[j][1]) {
-							cnt++;
-						}else if(dp[i][0] > dp[j][0] && dp[i][1] < dp[j][1]) {
-							cnt++;
-						}
-					}
-				}
-				dp[i][2] = cnt;
-			}
 			
-			while(ans < 10) {
-				int cnt = 0;
-				int maxIdx = 0;
-				int max = 0;
-				for(int i = 0; i < num; i++) {
-					if(dp[i][2] == 0) {
-						cnt++;
-					}
-					
-					if(dp[i][2] > max) {
-						max = dp[i][2];
-						maxIdx = i;
-					}
-				}
-				
-				if(cnt == num) {
-					break;
-				}
-				
-				dp[maxIdx][0] = -1;
-				
-				for(int i = 0; i < num; i++) {
-					if((i != maxIdx) && (dp[i][0] != -1) && (dp[i][2] > 0)) {
-						if(dp[i][0] < dp[maxIdx][0] && dp[i][1] > dp[maxIdx][1]) {
-							dp[i][2]--;
-						}else if(dp[i][0] > dp[maxIdx][0] && dp[i][1] < dp[maxIdx][1]) {
-							dp[i][2]--;
-						}
-					}
-				}
-				
-				dp[maxIdx][2] = 0;
-				ans++;
-				
-				for(int i = 0; i < num; i++) {
-					bw.write(Integer.toString(dp[i][2]) + " ");
-				}
-				bw.newLine();
-			}
-			
-			bw.write(Integer.toString(ans));
 			
 						
 			br.close();
@@ -88,3 +34,27 @@ class B2565 { // ภüฑ๊มู
 		}
 	}
 }
+
+//          int n, cnt = 0, dp_max = 0; cin >> n;
+//			int num[101], dp[101];
+//			fill_n(num, 101, 0);
+//			fill_n(dp, 101, 1);
+//			for (int i = 1; i <= n; i++) {
+//				int tmp;
+//				cin >> tmp;
+//				cin >> num[tmp];
+//			}
+//			
+//			for (int i = 1; i <= 100; i++) {
+//				int tmp = 1;
+//				for (int j = 1; j < i; j++) {
+//					if (num[i] != 0) {
+//						if (num[i] > num[j] && num[j] != 0) 
+//							tmp = max(tmp, dp[j] + 1);
+//					}
+//				}
+//				dp[i] = tmp;
+//				if (dp[i] > dp_max)
+//					dp_max = dp[i];
+//			}
+//			cout << n - dp_max;
