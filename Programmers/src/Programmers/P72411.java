@@ -20,47 +20,56 @@ public class P72411 { // 메뉴 리뉴얼
 	}
 	
 	// 테스트 케이스 중 하나만 시간초과 => 최대와 최소 사이 모든 조합을 다 뽑아서 걸러서 그런듯
-	// 주문한 단품 메뉴 조합에서 가능한 조합을 미리 뽑아 돌려야 시간 초과 안뜰듯! 
+	// 주문한 단품 메뉴 조합에서 가능한 조합을 미리 뽑아 돌려야 시간 초과 안뜬다.
 	public String[] solution(String[] orders, int[] course) {
         
         int maxChar = 0;
         int minChar = 100;
         int maxLen = 0;
-        for(String order : orders){
-        	int len = order.length();
+        String[] order = new String[orders.length];
+        
+        for(int i = 0; i < orders.length; i++) {
+        	int len = orders[i].length();
         	
-        	// order는 정렬되어 있지 않으므로 최대 아스키코드값을 찾는다.
-            int ch1 = findMaxChar(order);
-            int ch2 = findMinChar(order);
-            if(ch1 > maxChar){
-                maxChar = ch1;
-            }
-            
-            if(ch2 < minChar){
-            	minChar = ch2;
-            }
+//            int ch1 = findMaxChar(orders[i]);
+//            int ch2 = findMinChar(orders[i]);
+//            if(ch1 > maxChar){
+//                maxChar = ch1;
+//            }
+//            
+//            if(ch2 < minChar){
+//            	minChar = ch2;
+//            }
             
             if(len > maxLen){
                 maxLen = len;
             }
+            
+            // orders는 정렬되어 있지 않으므로 정렬해준다.
+            char[] StringtoChar = orders[i].toCharArray();
+            Arrays.sort(StringtoChar);
+            order[i] = new String(StringtoChar);
         }
         
         arr = new ArrayList<>();
         ArrayList<String> ans = new ArrayList<>();
-        
-        String[] str = new String[maxChar-minChar+1];
-        boolean[] visited = new boolean[maxChar-minChar+1];
-        for(int i = 0; i < maxChar-minChar+1; i++) {
-        	str[i] = Character.toString((char)i+minChar);
-        }
         
         for(int i = 0; i < course.length; i++){
         	
         	if(course[i] > maxLen){
                 break;
             }
-            
-        	comb(str, visited, 0, maxChar-minChar+1, course[i]);
+        	
+        	for(String o : order) {
+        		int oLen = o.length();
+        		String[] str = new String[oLen];
+                boolean[] visited = new boolean[oLen];
+                for(int j = 0; j < oLen; j++) {
+                	str[j] = o.substring(j,j+1);
+                }
+                
+            	comb(str, visited, 0, oLen, course[i]);
+        	}
         	
         	int max = 1;
 
@@ -68,9 +77,9 @@ public class P72411 { // 메뉴 리뉴얼
             for(int j = 0; j < arr.size(); j++) {
             	int cnt = 0;
             	
-            	for(String order : orders){
+            	for(String o : order){
             		
-                    if(check(order, arr.get(j))) {
+                    if(check(o, arr.get(j))) {
                     	cnt++;
                     }
                 }
@@ -110,7 +119,10 @@ public class P72411 { // 메뉴 리뉴얼
 	        		ans += str[i];
 	        	}
 	        }
-	        arr.add(ans);
+	        
+	        if(!arr.contains(ans)) {
+	        	arr.add(ans);
+	        }
 	        
 	        return;
 	    } 
@@ -133,31 +145,31 @@ public class P72411 { // 메뉴 리뉴얼
     	return true;
     }
     
-    private int findMaxChar(String order) {
-    	int max = 64;
-    	
-    	for(int i = 0; i < order.length(); i++) {
-    		int ch = (int)order.charAt(i);
-    		
-    		if(ch > max) {
-    			max = ch;
-    		}
-    	}
-    	
-    	return max;
-    }
-    
-    private int findMinChar(String order) {
-    	int min = 100;
-    	
-    	for(int i = 0; i < order.length(); i++) {
-    		int ch = (int)order.charAt(i);
-    		
-    		if(ch < min) {
-    			min = ch;
-    		}
-    	}
-    	
-    	return min;
-    }
+//    private int findMaxChar(String order) {
+//    	int max = 64;
+//    	
+//    	for(int i = 0; i < order.length(); i++) {
+//    		int ch = (int)order.charAt(i);
+//    		
+//    		if(ch > max) {
+//    			max = ch;
+//    		}
+//    	}
+//    	
+//    	return max;
+//    }
+//    
+//    private int findMinChar(String order) {
+//    	int min = 100;
+//    	
+//    	for(int i = 0; i < order.length(); i++) {
+//    		int ch = (int)order.charAt(i);
+//    		
+//    		if(ch < min) {
+//    			min = ch;
+//    		}
+//    	}
+//    	
+//    	return min;
+//    }
 }
