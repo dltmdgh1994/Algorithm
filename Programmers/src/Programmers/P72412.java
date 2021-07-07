@@ -95,8 +95,13 @@ public class P72412 { // 순위 검색
         	key = s1 + "-" + "-" + "-";
         	map.get(key).add(val);
         	
-        	key = "-" + "-" + "-" +"-";
+        	key = "-" + "-" + "-" + "-";
         	map.get(key).add(val);
+        }
+        
+        // 해쉬맵의 모든 ArrayList를 오름차순 정렬
+        for(Map.Entry<String, ArrayList<Integer>> entry : map.entrySet()) {
+        	Collections.sort(entry.getValue());
         }
         
         for(int i = 0; i < query.length; i++) {
@@ -108,31 +113,38 @@ public class P72412 { // 순위 검색
         	int limit = Integer.parseInt(q[7]);
         	
         	ArrayList<Integer> target = map.get(key);
-        	Collections.sort(target);
 
         	int idx = Collections.binarySearch(target, limit);
         	int ans = 0;
-
-        	if(idx >= 0) {
-        		int next = idx+1;
-        		if(next < target.size()) {
-        			while(target.get(next) == target.get(idx)) {
-        				next++;
-        			}
-        			next++;
-        		}
-        		
-        		ans = next;
-        	}else {
-        		if(idx == -1) {
-        			ans = -idx;
-        		}else {
-        			ans = -(idx+1);
-        		}
-        		
-        	}
         	
-        	answer[i] = ans;
+        	if(idx >= 0) {
+        		for(int a=idx-1; a>=0; a--) {
+        			if(target.get(idx) - target.get(a) > 0) break;
+        			else idx = a;
+        		}
+        		answer[i] = target.size()-idx;
+        	}else {
+        		answer[i] = target.size()+idx+1;
+        	}
+
+//        	if(idx >= 0) {
+//        		int next = idx-1;
+//        		while(next >= 0) {
+//        			// 같은게 있을 경우
+//        			if(target.get(next) == target.get(idx)) {
+//        				idx--;
+//        				next--;
+//        			}else {
+//        				break;
+//        			}
+//        		}
+//        		
+//        		ans = idx;
+//        	}else {
+//        		ans = -(idx+1);
+//        	}
+//        	
+//        	answer[i] = target.size() - ans;
         }
         
 //        Dev[] dev = new Dev[info.length];
