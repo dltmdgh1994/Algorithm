@@ -19,7 +19,8 @@ public class P72412 { // 순위 검색
 	}
 	
 	// 완전 탐색의 경우 효율성 테스트에서 시간 초과
-	// 
+	// 가능한 경우(4*3*3*3)를 map에 미리 넣고 점수만 ArrayList에 넣는다.
+	// 그 후 쿼리에 만족하는 맵을 불러와 binary search
 	public int[] solution(String[] info, String[] query) {
         int[] answer = new int[query.length];
         
@@ -42,6 +43,7 @@ public class P72412 { // 순위 검색
         	}
         }
         
+        // 가능한 모든 경우에 미리 점수 값을 넣고 탐색한다. => 시간 초과 방지
         for(int i = 0; i < info.length; i++) {
         	String[] s = info[i].split(" ");
         	String s1 = s[0].substring(0,1);
@@ -100,6 +102,7 @@ public class P72412 { // 순위 검색
         }
         
         // 해쉬맵의 모든 ArrayList를 오름차순 정렬
+        // binary search 하기 전에 정렬이 필요
         for(Map.Entry<String, ArrayList<Integer>> entry : map.entrySet()) {
         	Collections.sort(entry.getValue());
         }
@@ -114,37 +117,25 @@ public class P72412 { // 순위 검색
         	
         	ArrayList<Integer> target = map.get(key);
 
+        	// binary search => 찾으면 index 리턴
+        	//               => 못 찾으면, -들어갈 위치(인덱스x) 리턴
+        	// binary search 안하고 완전 탐색하면 시간초과
         	int idx = Collections.binarySearch(target, limit);
         	int ans = 0;
-        	
-        	if(idx >= 0) {
+
+        	if(idx >= 0) { // 찾은 경우
+        		// 동일한 값이 있을 경우 최소 인덱스를 리턴하지 않아서 찾아야 한다.
         		for(int a=idx-1; a>=0; a--) {
         			if(target.get(idx) - target.get(a) > 0) break;
         			else idx = a;
-        		}
-        		answer[i] = target.size()-idx;
-        	}else {
-        		answer[i] = target.size()+idx+1;
+        			}
+        		
+        		ans = idx;
+        	}else { // 못 찾은 경우
+        		ans = -(idx+1);
         	}
-
-//        	if(idx >= 0) {
-//        		int next = idx-1;
-//        		while(next >= 0) {
-//        			// 같은게 있을 경우
-//        			if(target.get(next) == target.get(idx)) {
-//        				idx--;
-//        				next--;
-//        			}else {
-//        				break;
-//        			}
-//        		}
-//        		
-//        		ans = idx;
-//        	}else {
-//        		ans = -(idx+1);
-//        	}
-//        	
-//        	answer[i] = target.size() - ans;
+        	
+        	answer[i] = target.size() - ans;
         }
         
 //        Dev[] dev = new Dev[info.length];
