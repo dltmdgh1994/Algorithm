@@ -24,6 +24,7 @@ public class P42577 { //전화번호 목록
             return true;
         }
         
+        // 문자열 길이를 저장
         ArrayList<Integer> len = new ArrayList<>();
         for(int i = 0; i < phone_book.length; i++) {
         	if(!len.contains(phone_book[i].length())) {
