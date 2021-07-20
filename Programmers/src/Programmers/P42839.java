@@ -69,7 +69,7 @@ public class P42839 { // 소수 찾기
 		for(int i = 2; i < limit; i++) {
 			flag = false;
 			// 시간 단축을 위해 그 수의 제곱근까지만 나눠 본다.
-			sqrt = (int)(Math.pow(i,0.5));
+			sqrt = (int)(Math.sqrt(i));
 			for(int j = 2; j <= sqrt; j++) {
 				if(i % j == 0) {
 					flag = true;
