@@ -2,7 +2,7 @@ package Programmers;
 
 import java.util.*;
 
-public class P42885 { // 구명보트
+public class P42885 { // 2 구명보트
 	public static void main(String[] args) {
 		
 		P42885 p = new P42885();;
