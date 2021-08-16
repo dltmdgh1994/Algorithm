@@ -187,3 +187,66 @@ public class P42895 { // 3 N으로 표현
 //		}
 //	}
 }
+
+//import java.util.*;
+//
+//class Solution {
+//    public String solution(String input) {
+//        String answer = "";
+//        
+//        String[] s = input.split("\n");
+//        
+//        String[] first = s[0].split(" ");
+//        int day = Integer.parseInt(first[0]);
+//        int num = Integer.parseInt(first[1]);
+//        answer += (s[0]+"\n");
+//        
+//        int dayCnt = 0;
+//        int numCnt = 0;
+//        boolean show = true;
+//        
+//        for(int i = 1; i < s.length; i++){
+//            String command = s[i];
+//            
+//            if(command.equals("SHOW")){
+//                if(show){
+//                    answer += "1\n";
+//                    numCnt++;
+//                }else{
+//                    answer += "0\n";
+//                }
+//                
+//            }else if(command.equals("NEGATIVE")){
+//                answer += "0\n";
+//                show = false;
+//                dayCnt += day;
+//                numCnt = 0;
+//                
+//            }else if(command.equals("NEXT")){
+//                answer += "-\n";
+//                
+//                if(show && numCnt == 0){
+//                    dayCnt = 0;
+//                }else if(!show && dayCnt != 0){
+//                    dayCnt--;
+//                }else if(!show && dayCnt == 0){
+//                    show = true;
+//                }
+//                
+//            }else if(command.equals("EXIT")){
+//                answer += "BYE";
+//                break;
+//            }else{
+//                answer += "ERROR\n";
+//            }
+//            
+//            if(numCnt == num){
+//                show = false;
+//                dayCnt += day;
+//                numCnt = 0;
+//            }
+//        }
+//        
+//        return answer;
+//    }
+//}
