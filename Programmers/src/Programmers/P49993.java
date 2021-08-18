@@ -15,7 +15,6 @@ public class P49993 { // 2 스킬트리
 
 	public int solution(String skill, String[] skill_trees) {
         int answer = 0;
-        int len = skill.length();
         
         HashMap<Character, Integer> map = new HashMap<>();
         for(int i = 0; i < skill.length(); i++) {
