@@ -8,10 +8,7 @@ public class P1830 { // 3 브라이언의 고민
 		
 		P1830 p = new P1830();
 		
-		String s = "a";
-		System.out.println(s.substring(2));
-		
-//		System.out.println(p.solution("HaEaLaLaObWORLDb"));
+		System.out.println(p.solution("HaEaLaLaObWORLDb"));
 		
 	}
 
