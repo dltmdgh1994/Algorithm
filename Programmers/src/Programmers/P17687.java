@@ -7,7 +7,7 @@ public class P17687 { // 2 n진수 게임
 		P17687 p = new P17687();
 		
 
-		System.out.println(p.solution(2, 1, 3, 3));
+		System.out.println(p.solution(16, 30, 3, 3));
 	}
 	
 	// 진법 n, 미리 구할 숫자의 갯수 t, 게임에 참가하는 인원 m, 튜브의 순서 p
@@ -43,17 +43,19 @@ public class P17687 { // 2 n진수 게임
         	}else {
         		cnt = 1;
         	}
-        }
+        }     
         
-        
+        // 왜 틀리는지 잘 모르겠다... size 쪽 문제인듯??
 //        String temp = "0";
 //        int[] arr = new int[20];
 //        int limit = t*m;
 //        
 //        int num = 1;
 //        int sum = 1;
-//        while(true) {
-//        	int size = (int)(Math.log10(num++)/Math.log10(n))+1;
+//        int size = 1;
+//        
+//        while(sum < limit) {
+//        	size = (int)(Math.log10(num++)/Math.log10(n))+1;
 //        	
 //        	for(int j = 0; j < size; j++) {
 //        		if(arr[j] < n-1) {
@@ -85,11 +87,8 @@ public class P17687 { // 2 n진수 게임
 //        	}
 //        	
 //        	sum += size;
-//        	
-//        	if(sum >= limit) {
-//        		break;
-//        	}
 //        }
+//        System.out.println(temp);
 //        
 //        int cnt = 1;
 //        for(int i = 0; i < limit; i++) {
