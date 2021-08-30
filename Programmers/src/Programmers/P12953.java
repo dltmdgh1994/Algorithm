@@ -6,9 +6,9 @@ public class P12953 { // 2 N개의 최소공배수(lcm)
 
 	public static void main(String[] args) {
 		
-		P12951 p = new P12951();
+		P12953 p = new P12953();
 		
-		System.out.println(p.solution("He     is"));
+		System.out.println(p.solution(new int[] {2,6,8,14}));
 	}
 	
 	// lcm(a,b) = a*b / gcd(a,b) 도 성립한다.
