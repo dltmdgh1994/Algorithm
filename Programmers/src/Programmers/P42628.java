@@ -28,12 +28,14 @@ public class P42628 { // 3 이중우선순위큐
         		minQ.add(num);
         		maxQ.add(num);
         	}else {
-        		if(num == 1) { // 최댓값 제거
-        			int max = maxQ.poll();
-        			minQ.remove(max);
-        		}else { // 최솟값 제거
-        			int min = minQ.poll();
-        			maxQ.remove(min);
+        		if(minQ.size() != 0) {
+        			if(num == 1) { // 최댓값 제거
+            			int max = maxQ.poll();
+            			minQ.remove(max);
+            		}else { // 최솟값 제거
+            			int min = minQ.poll();
+            			maxQ.remove(min);
+            		}
         		}
         	}
         }
