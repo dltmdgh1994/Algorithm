@@ -8,8 +8,8 @@ public class P42579 { // 3 베스트앨범
 		
 		P42579 p = new P42579();
 		
-		String[] genres = {"classic", "pop", "classic", "classic", "pop"};
-		int[] plays = {500, 600, 150, 800, 2500};
+		String[] genres = {"b", "a", "c", "d", "e"};
+		int[] plays = {500, 400, 300, 200, 100};
 		
 		int[] ans = p.solution(genres, plays);
 		
@@ -46,23 +46,36 @@ public class P42579 { // 3 베스트앨범
 			}
 		}
 		
-		int[] answer = new int[genresAllCnt.keySet().size()*2];
+		ArrayList<Integer> ans = new ArrayList<>();
 		
 		// 속한 노래가 많이 재생된 장르를 내림차순 정렬
+		// HashMap 자체를 정렬하는게 아니라 keySetList를 정렬
 		ArrayList<String> keySetList = new ArrayList<>(genresAllCnt.keySet());
 		Collections.sort(keySetList, (o1, o2) 
 				-> genresAllCnt.get(o2).compareTo(genresAllCnt.get(o1)));
 		
-		int k = 0;
-		for(String key : songInfo.keySet()) {
+		// 정렬된 keySetList를 바탕으로 장르 내 가장 많이 재생된 노래 순으로 내림차순 정렬
+		for(String key : keySetList) {
 			ArrayList<int[]> arr = songInfo.get(key);
 			
 			Collections.sort(arr, (o1, o2) -> compareArr(o1, o2));
 			
-			answer[k++] = arr.get(0)[0];
-			answer[k++] = arr.get(1)[0];
+			if(arr.size() <= 2) { // 노래가 2개 이내
+				for(int i = 0; i < arr.size(); i++) {
+					ans.add(arr.get(i)[0]);
+				}
+			}else { // 노래가 3개 이상
+				for(int i = 0; i < 2; i++) {
+					ans.add(arr.get(i)[0]);
+				}
+			}
 		}
 		
+		int[] answer = new int[ans.size()];
+		for(int i = 0; i < ans.size(); i++) {
+			answer[i] = ans.get(i);
+		}
+
         return answer;
     }
 	
