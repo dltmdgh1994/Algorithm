@@ -1,7 +1,5 @@
 package Programmers;
 
-import java.util.*;
-
 public class P72414 { // 3 광고 삽입
 
 	public static void main(String[] args) {
@@ -20,41 +18,48 @@ public class P72414 { // 3 광고 삽입
         	return "00:00:00";
         }
         
-        long max = 0;
+        long[] cumTime = new long[360000];
         
-        ArrayList<String[]> log = new ArrayList<>();
         for(int i = 0; i < logs.length; i++) {
         	String[] tmp = logs[i].split("-");
         	
-        	log.add(tmp);
+        	int st = timeToSec(tmp[0]);
+        	int et = timeToSec(tmp[1]);
+        	
+        	cumTime[st]++;
+        	cumTime[et]--; // 시청이 끝났으므로 뒤에 누적 시간에 추가되는 거 빼줌
         }
         
-        Collections.sort(log, (o1, o2) -> compareToTime(timeToSec(o1[0]), timeToSec(o2[0])));
+        // 0 0 1 0 0 -1 0 0
+        // 0 0 1 1 1 0 0 0
+        int ptSec = timeToSec(play_time);
+        int adSec = timeToSec(adv_time);
+        for(int i = 1; i <= ptSec; i++) {
+        	cumTime[i] += cumTime[i-1];
+        }
         
-        for(int i = 0; i < logs.length; i++) {
-        	int stTime = timeToSec(log.get(i)[0]);
-        	int adEndTime = stTime + timeToSec(adv_time);
-        	long sum = 0;
+        long sum = 0;
+        for(int i = 0; i < adSec; i++) {
+        	sum += cumTime[i];
+        }
+        
+        long max = sum;
+        int idx = 0;
+        
+        // 중복을 최대한 줄여야 시간 초과 방지
+        for(int i = 1; i < ptSec-adSec+1; i++) {	
         	
-        	for(int j = i; j < logs.length; j++) {
-        		int st = timeToSec(log.get(j)[0]);
-        		int et = timeToSec(log.get(j)[1]);
-        		
-        		if(st >= stTime && st < adEndTime) {
-        			if(et >= adEndTime) {
-        				sum += (adEndTime - st);
-        			}else {
-        				sum += (et - st);
-        			}
-        		}else if(st >= adEndTime) break;
-        	}
+        	// 앞에꺼 제거, 뒤에꺼 추가
+        	sum -= cumTime[i-1];
+        	sum += cumTime[i+adSec-1];
         	
         	if(sum > max) {
-        		max = sum;
-        		answer = log.get(i)[0];
-        	}
+    			max = sum;
+    			idx = i;
+    		}
         }
         
+        answer = secToTime(idx);
         
         return answer;
     }
@@ -69,13 +74,33 @@ public class P72414 { // 3 광고 삽입
 		return h1*3600 + m1*60 + s1;
 	}
 	
-	private int compareToTime(int t1, int t2) {
-		if(t1 > t2) {
-			return 1;
-		}else if(t1 == t2) {
-			return 0;
+	private String secToTime(int t1) {
+		String answer = "";
+		
+		int h1 = t1/3600;
+		t1 %= 3600;
+		
+		int m1 = t1/60;
+		t1 %= 60;
+		
+		if(h1 < 10) {
+			answer += ("0" + Integer.toString(h1) + ":");
 		}else {
-			return -1;
+			answer += Integer.toString(h1) + ":";
 		}
+		
+		if(m1 < 10) {
+			answer += ("0" + Integer.toString(m1) + ":");
+		}else {
+			answer += Integer.toString(m1) + ":";
+		}
+		
+		if(t1 < 10) {
+			answer += ("0" + Integer.toString(t1));
+		}else {
+			answer += Integer.toString(t1);
+		}
+		
+		return answer;
 	}
 }
