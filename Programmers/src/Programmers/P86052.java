@@ -59,8 +59,44 @@ public class P86052 { // 2 빛의 경로 사이클
         return answer;
     }
     
-    private int dfs(int r, int c, int row, int col, int[][] light, boolean[][][] visited){
+    private int dfs(int r, int c, int d, int row, int col, int[][] light, boolean[][][] visited){
         
+    	int curX = c;
+    	int curY = r;
+    	int direct = d;
+    	int n = 0;
+    	
+    	while(!visited[curY][curX][direct]) {
+    		visited[curY][curX][direct] = true;
+    		
+    		if(light[curY][curX] == 0) {
+    			if(direct == 0) {
+    				curX++;
+    				if(curX == col) curX = 0; 
+    			}else if(direct == 1) {
+    				curY++;
+    				if(curY == row) curY = 0; 
+    			}else if(direct == 2) {
+    				curX--;
+    				if(curX == col) curX = col-1; 
+    			}else {
+    				curY--;
+    				if(curY == row) curY = row-1; 
+    			}
+    		}else if(light[curY][curX] == 1) {
+    			if(direct == 0) {
+    				 
+    			}else if(direct == 1) {
+    				
+    			}else if(direct == 2) {
+    				
+    			}else {
+    				
+    			}
+    		}else {
+    			
+    		}
+    	}
         
         return 0;
     }
