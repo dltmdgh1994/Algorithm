@@ -8,7 +8,13 @@ public class P86052 { // 2 빛의 경로 사이클
 		
 		P86052 p = new P86052();
 		
+		String[] grid = {"R","R"};
 		
+		int[] arr = p.solution(grid);
+		
+		for(int i = 0; i < arr.length; i++) {
+			System.out.println(arr[i]);
+		}
 	}
 	
 	public int[] solution(String[] grid) {
@@ -42,7 +48,7 @@ public class P86052 { // 2 빛의 경로 사이클
                 for(int k = 0; k < 4; k++){
                     //방문 안한 곳 사이클 확인
                     if(!visited[i][j][k]){
-                        int tmp = dfs();
+                        int tmp = dfs(i,j,k,row,col,light,visited);
                         ans.add(tmp);
                     }
                 }
@@ -68,36 +74,61 @@ public class P86052 { // 2 빛의 경로 사이클
     	
     	while(!visited[curY][curX][direct]) {
     		visited[curY][curX][direct] = true;
+    		n++;
     		
     		if(light[curY][curX] == 0) {
     			if(direct == 0) {
     				curX++;
-    				if(curX == col) curX = 0; 
+    				if(curX == col) curX = 0;
     			}else if(direct == 1) {
     				curY++;
-    				if(curY == row) curY = 0; 
+    				if(curY == row) curY = 0;
     			}else if(direct == 2) {
     				curX--;
-    				if(curX == col) curX = col-1; 
+    				if(curX == -1) curX = col-1;
     			}else {
     				curY--;
-    				if(curY == row) curY = row-1; 
+    				if(curY == -1) curY = row-1;
     			}
     		}else if(light[curY][curX] == 1) {
     			if(direct == 0) {
-    				 
+    				 direct = 3;
+    				 curY--;
+     				 if(curY == -1) curY = row-1;
     			}else if(direct == 1) {
-    				
+    				direct = 0;
+    				curX++;
+    				if(curX == col) curX = 0;
     			}else if(direct == 2) {
-    				
+    				direct = 1;
+    				curY++;
+    				if(curY == row) curY = 0;
     			}else {
-    				
+    				direct = 2;
+    				curX--;
+    				if(curX == -1) curX = col-1;
     			}
     		}else {
-    			
+    			if(direct == 0) {
+	   				direct = 1;
+	   				curY++;
+    				if(curY == row) curY = 0;
+	   			}else if(direct == 1) {
+	   				direct = 2;
+	   				curX--;
+    				if(curX == -1) curX = col-1;
+	   			}else if(direct == 2) {
+	   				direct = 3;
+	   				curY--;
+    				if(curY == -1) curY = row-1;
+	   			}else {
+	   				direct = 0;
+	   				curX++;
+    				if(curX == col) curX = 0;
+	   			}
     		}
     	}
         
-        return 0;
+        return n;
     }
 }
