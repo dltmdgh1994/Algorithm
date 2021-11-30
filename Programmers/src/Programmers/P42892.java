@@ -52,13 +52,13 @@ public class P42892 { // 3 길 찾기 게임
         	tree.insertNode(data);
         }
         
-        tree.preorderTree(tree.rootNode, 0);
+        tree.preorderTree(tree.rootNode);
         answer[0] = new int[tree.preorderResult.size()];
         for(int i = 0; i < tree.preorderResult.size(); i++) {
         	answer[0][i] = tree.preorderResult.get(i);
         }
         
-        tree.postorderTree(tree.rootNode, 0);
+        tree.postorderTree(tree.rootNode);
         answer[1] = new int[tree.postorderResult.size()];
         for(int i = 0; i < tree.postorderResult.size(); i++) {
         	answer[1][i] = tree.postorderResult.get(i);
@@ -116,19 +116,19 @@ class Tree{
 	}
 	
 	// 전위 순회
-    public void preorderTree(Node root, int depth) {
+    public void preorderTree(Node root) {
         if (root != null) {
         	preorderResult.add(root.data[2]);
-            preorderTree(root.leftChild, depth + 1);
-            preorderTree(root.rightChild, depth + 1);
+            preorderTree(root.leftChild);
+            preorderTree(root.rightChild);
         }
     }
     
     // 후위 순회
-    public void postorderTree(Node root, int depth) {
+    public void postorderTree(Node root) {
         if (root != null) {
-            postorderTree(root.leftChild, depth + 1);
-            postorderTree(root.rightChild, depth + 1);
+            postorderTree(root.leftChild);
+            postorderTree(root.rightChild);
             postorderResult.add(root.data[2]);
         }
     }
