@@ -69,23 +69,25 @@ public class P42861 { // 3 섬 연결하기
         		}
         		
         		answer += cost;
-        	}
+        	}   
         	
-        	
+        	// 이런 느낌으로 간소화 가능
+//        	if(find(cycle, costs[i][0]) != find(cycle, costs[i][1])) {
+//        		unite(cycle, costs[i][0], costs[i][1]);
+//        		answer += costs[i][2];
+//        	}
+//        	
         }
         
         return answer;
     }
     
-    private int find(int[] island, int x)
-    {
-        if(island[x]== x)
-            return x;
+    private int find(int[] island, int x) {
+        if(island[x]== x) return x;
         return find(island, island[x]);
     }
     
-    private void unite(int[] island, int x, int y)
-    {
+    private void unite(int[] island, int x, int y) {
         int a = find(island, x);
         int b = find(island, y);
         island[a] = b;
