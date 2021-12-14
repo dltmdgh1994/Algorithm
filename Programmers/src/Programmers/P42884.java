@@ -26,9 +26,6 @@ public class P42884 { // 3 단속카메라
         		for(int j = i; j < routes.length; j++) {
         			if(routes[j][0] <= base && routes[j][1] >= base) {
         				visited[j] = true;
-        			}else {
-        				i = j;
-        				break;
         			}
         		}
         		
