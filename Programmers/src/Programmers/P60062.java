@@ -19,6 +19,7 @@ public class P60062 { // 3 외벽 점검
     public int solution(int n, int[] weak, int[] dist) {
         int answer = 0;
         
+        ArrayList<Wall> arr = new ArrayList<>();
         boolean[] weakSpot = new boolean[weak.length];
         
         reverseSort(dist);
@@ -28,7 +29,11 @@ public class P60062 { // 3 외벽 점검
         	int maxIdx = 0;
         	int direct = 0;
         	
+        	
+        	
         	for(int j = 0; j < weak.length; j++) {
+        		
+        		
 
         		if(!weakSpot[j]) {
         			int w = weak[j];
@@ -171,6 +176,41 @@ public class P60062 { // 3 외벽 점검
     }
     
     private boolean checkComplete(boolean[] weakSpot) {
+    	
+    	for(int i = 0; i < weakSpot.length; i++) {
+    		if(!weakSpot[i]) return false;
+    	}
+    	return true;
+    }
+}
+
+class Wall{
+	boolean[] weakSpot;
+	int cnt;
+	
+	public Wall(boolean[] weakSpot, int cnt) {
+		super();
+		this.weakSpot = weakSpot;
+		this.cnt = cnt;
+	}
+
+	public boolean[] getWeakSpot() {
+		return weakSpot;
+	}
+
+	public void setWeakSpot(boolean[] weakSpot) {
+		this.weakSpot = weakSpot;
+	}
+
+	public int getCnt() {
+		return cnt;
+	}
+
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+	
+	public boolean checkComplete() {
     	
     	for(int i = 0; i < weakSpot.length; i++) {
     		if(!weakSpot[i]) return false;
