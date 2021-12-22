@@ -19,8 +19,9 @@ public class P60062 { // 3 외벽 점검
     public int solution(int n, int[] weak, int[] dist) {
         int answer = 0;
         
-        ArrayList<Wall> arr = new ArrayList<>();
+        Queue<Wall> q = new LinkedList<>();
         boolean[] weakSpot = new boolean[weak.length];
+        q.add(new Wall(weakSpot, 0));
         
         reverseSort(dist);
         for(int i = 0; i < dist.length; i++) {
@@ -29,11 +30,18 @@ public class P60062 { // 3 외벽 점검
         	int maxIdx = 0;
         	int direct = 0;
         	
+        	while(true) {
+        		Wall wall = q.peek();
+        		
+        		if(wall.getCnt() <= answer) break;
+        		
+        		weakSpot = wall.getWeakSpot();
+        	}
         	
+        	Wall wall1 = q.poll();
+        	weakSpot = wall1.getWeakSpot();
         	
         	for(int j = 0; j < weak.length; j++) {
-        		
-        		
 
         		if(!weakSpot[j]) {
         			int w = weak[j];
@@ -71,7 +79,7 @@ public class P60062 { // 3 외벽 점검
         			}
         			
         			cnt = 0;
-        			
+        			 
         			if(w-d < 0) {
         				for(int k = 0; k <= j; k++) {
         					if(!weakSpot[k]) {
