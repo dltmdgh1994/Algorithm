@@ -3,6 +3,9 @@ package Programmers;
 import java.util.*;
 
 public class P60062 { // 3 외벽 점검
+	
+	int answer = 0;
+	int[][] weakCase;
 
 	public static void main(String[] args) {
 		
@@ -17,212 +20,84 @@ public class P60062 { // 3 외벽 점검
 	}
 	
     public int solution(int n, int[] weak, int[] dist) {
-        int answer = 0;
         
-        Queue<Wall> q = new LinkedList<>();
-        boolean[] weakSpot = new boolean[weak.length];
-        q.add(new Wall(weakSpot, 0));
+        weakCase = new int[weak.length][weak.length];
         
-        reverseSort(dist);
-        for(int i = 0; i < dist.length; i++) {
-        	int d = dist[i];
-        	int max = 0;
-        	int maxIdx = 0;
-        	int direct = 0;
-        	
-        	while(true) {
-        		Wall wall = q.peek();
-        		
-        		if(wall.getCnt() <= answer) break;
-        		
-        		weakSpot = wall.getWeakSpot();
-        	}
-        	
-        	Wall wall1 = q.poll();
-        	weakSpot = wall1.getWeakSpot();
-        	
+        // 원형의 취약지점 형태를 직선 형태로 모든 weak 케이스를 만든다.
+        // [1,5,6,10] => [1,5,6,10],[5,6,10,13],[6,10,13,17],[6,10,13,17,18]
+        for(int i = 0; i < weak.length; i++) {
         	for(int j = 0; j < weak.length; j++) {
-
-        		if(!weakSpot[j]) {
-        			int w = weak[j];
-        			int cnt = 0;
-        			
-        			if(w+d >= n) {
-        				for(int k = j; k < weak.length; k++) {
-        					if(!weakSpot[k]) {
-        						cnt++;
-        					}else {
-        						break;
-        					}
-        				}
-        				for(int k = 0; k < j; k++) {
-        					if(!weakSpot[k] && w+d-n >= weak[k]) {
-        						cnt++;
-        					}else {
-        						break;
-        					}
-        				}
-        			}else {
-        				for(int k = j; k < weak.length; k++) {
-        					if(!weakSpot[k] && w+d >= weak[k]) {
-        						cnt++;
-        					}else {
-        						break;
-        					}
-        				}
-        			}
-        			
-        			if(cnt > max) {
-        				max = cnt;
-        				maxIdx = j;
-        				direct = 0;
-        			}
-        			
-        			cnt = 0;
-        			 
-        			if(w-d < 0) {
-        				for(int k = 0; k <= j; k++) {
-        					if(!weakSpot[k]) {
-        						cnt++;
-        					}else {
-        						break;
-        					}
-        				}
-        				for(int k = weak.length-1; k > j; k--) {
-        					if(!weakSpot[k] && n-(d-w) <= weak[k]) {
-        						cnt++;
-        					}else {
-        						break;
-        					}
-        				}
-        			}else {
-        				for(int k = j; k >= 0; k--) {
-        					if(!weakSpot[k] && w-d <= weak[k]) {
-        						cnt++;
-        					}else {
-        						break;
-        					}
-        				}
-        			}
-        			
-        			if(cnt > max) {
-        				max = cnt;
-        				maxIdx = j;
-        				direct = 1;
-        			}
+        		int idx = i+j;
+        		
+        		if(idx >= weak.length) {
+        			idx -= weak.length;
+        			weakCase[i][j] = weak[idx] + n;
+        		}else {
+        			weakCase[i][j] = weak[idx];
         		}
         	}
-        	
-        	System.out.println(maxIdx + " " + direct + " " + max);
-        	
-        	if(direct == 0) {
-        		int w = weak[maxIdx];
-        		
-        		if(w+d >= n) {
-        			for(int j = maxIdx; j < weak.length; j++) {
-        				if(!weakSpot[j]) {
-        					weakSpot[j] = true;
-        				}
-        			}
-        			for(int j = 0; j < maxIdx; j++) {
-        				if(!weakSpot[j] && w+d-n >= weak[j]) {
-        					weakSpot[j] = true;
-        				}
-        			}
-        		}else {
-        			for(int j = maxIdx; j < weak.length; j++) {
-        				if(!weakSpot[j] && w+d >= weak[j]) {
-        					weakSpot[j] = true;
-        				}else {
-        					break;
-        				}
-        			}
-        		}
-        		
-        	}else {
-        		int w = weak[maxIdx];
-        		
-        		if(w-d < 0) {
-        			for(int j = maxIdx; j >= 0; j--) {
-        				if(!weakSpot[j]) {
-        					weakSpot[j] = true;
-        				}
-        			}
-        			for(int j = weak.length-1; j > maxIdx; j--) {
-        				if(!weakSpot[j] && n-(d-w) <= weak[j]) {
-        					weakSpot[j] = true;
-        				}
-        			}
-        		}else {
-        			for(int j = maxIdx; j >= 0; j--) {
-        				if(!weakSpot[j] && w-d <= weak[j]) {
-        					weakSpot[j] = true;
-        				}else {
-        					break;
-        				}
-        			}
-        		}
-        	}
-        	
-        	answer++;
-        	
-        	if(checkComplete(weakSpot)) break;
         }
         
-        return answer;
-    }
-    
-    // 내림차순 정렬
-    private void reverseSort(int[] arr) {
-        Arrays.sort(arr);
+        Arrays.sort(dist);
         
-        for (int i = 0; i < arr.length / 2; i++) {
-            int temp = arr[i];
-            arr[i] = arr[arr.length - i - 1];
-            arr[arr.length - i - 1] = temp;
+        boolean[] visited = new boolean[dist.length];
+        // 순열을 이용하여 모든 dist 케이스를 만든다.
+        distPermutation(dist, new int[dist.length], visited, 0);
+        
+        if(answer == 0) {
+        	return -1;
+        }else {
+        	return answer;
         }
     }
     
-    private boolean checkComplete(boolean[] weakSpot) {
+    private void distPermutation(int[] dist, int[] distCase, boolean[] visited, int idx) {
     	
-    	for(int i = 0; i < weakSpot.length; i++) {
-    		if(!weakSpot[i]) return false;
+    	if(idx == dist.length) {
+    		// 모든 weak 케이스에 대한 모든 dist 케이스를 완점 탐색
+    		for(int[] wc : weakCase) {
+    			checkWall(distCase, wc);
+    		}
+    		
+    		return;
     	}
-    	return true;
+    	
+    	for(int i = 0; i < dist.length; i++) {
+    		if(!visited[i]) {
+    			visited[i] = true;
+    			distCase[idx] = dist[i];
+    			distPermutation(dist, distCase, visited, idx+1);
+    			distCase[idx] = 0;
+    			visited[i] = false;
+    		}
+    	}
     }
-}
-
-class Wall{
-	boolean[] weakSpot;
-	int cnt;
-	
-	public Wall(boolean[] weakSpot, int cnt) {
-		super();
-		this.weakSpot = weakSpot;
-		this.cnt = cnt;
-	}
-
-	public boolean[] getWeakSpot() {
-		return weakSpot;
-	}
-
-	public void setWeakSpot(boolean[] weakSpot) {
-		this.weakSpot = weakSpot;
-	}
-
-	public int getCnt() {
-		return cnt;
-	}
-
-	public void setCnt(int cnt) {
-		this.cnt = cnt;
-	}
-	
-	public boolean checkComplete() {
+    
+    private void checkWall(int[] dc, int[] wc) {
+    	int dIdx = 0;
+    	int wIdx = 0;
+    	int pos = wc[wIdx];
     	
-    	for(int i = 0; i < weakSpot.length; i++) {
-    		if(!weakSpot[i]) return false;
+    	while(dIdx < dc.length) {
+    		pos += dc[dIdx];
+    		
+    		while(pos >= wc[wIdx]) {
+    			wIdx++;
+    			if(wIdx == wc.length) break;
+    		}
+    		
+    		if(wIdx == wc.length) break;
+    		dIdx++;
+    		pos = wc[wIdx];
     	}
-    	return true;
+    	
+    	// 모든 취약 지점을 탐색했는지 확인
+    	if(wIdx == wc.length) {
+        	if(answer == 0) {
+        		answer = dIdx+1;
+        	}else if(answer > dIdx+1) {
+        		answer = dIdx+1;
+        	}
+    	}
     }
 }
