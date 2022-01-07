@@ -11,7 +11,7 @@ public class D6_Sort { // 정렬 정리
 		int[] arr = new int[1000];
 		Random rd = new Random();
 		for(int i = 0; i < arr.length; i++) {
-			arr[i] = rd.nextInt(99)+1;
+			arr[i] = rd.nextInt(100);
 		}
 		
 		d.selectionSort(arr);
@@ -19,6 +19,7 @@ public class D6_Sort { // 정렬 정리
 		d.bubbleSort(arr);
 		d.quickSort(arr);
 		d.mergeSort(arr);
+		d.countSort(arr);
 	}
 	
 	// 선택 정렬 => O(N^2)
@@ -193,8 +194,11 @@ public class D6_Sort { // 정렬 정리
 		
 		if(left < right) {
 			mid = (left + right)/2;
+			// 분할
 			ms(tmp, result, left, mid);
 			ms(tmp, result, mid+1, right);
+			
+			// 병합
 			merge(tmp, result, left, right, mid);
 		}
 	}
@@ -213,18 +217,56 @@ public class D6_Sort { // 정렬 정리
 			}
 		}
 		
-		if(i > mid) {
+		if(i > mid) { // 왼쪽을 다 비웠다면
 			for(int l = j; l <= right; l++) {
 				tmp[k++] = result[l];
 			}
-		}else {
+		}else { // 오른쪽을 다 비웠다면
 			for(int l = i; l <= mid; l++) {
 				tmp[k++] = result[l];
 			}
 		}
 		
+		// 정렬한 결과를 원본에 복사
 		for(int l = left; l <= right; l++) {
 			result[l] = tmp[l];
 		}
+	}
+	
+	// 계수 정렬 => O(N+K)
+	// 데이터의 크기 범위가 제한되어 정수 형태로 표현할 수 있을 때 사용
+	public void countSort(int[] arr) {
+		int[] result = Arrays.copyOf(arr, arr.length);
+		int[] cnt = new int[result.length];
+		long beforeTime = System.currentTimeMillis();
+		
+		for(int i = 0; i < result.length; i++) {
+			cnt[result[i]]++;
+		}
+		
+		int idx = 0;
+		for(int i = 0; i < result.length; i++) {
+			if(cnt[idx] != 0) {
+				result[i] = idx;
+				cnt[idx]--;
+			}else {
+				idx++;
+				while(cnt[idx] == 0) {
+					idx++;
+				}
+				result[i] = idx;
+				cnt[idx]--;
+			}
+		}
+		
+		for(int i = 0; i < result.length; i++) {
+			System.out.print(result[i] + " ");
+		}
+		
+		long afterTime = System.currentTimeMillis();
+		long secDiffTime = (afterTime - beforeTime);
+		
+		System.out.println();
+		System.out.println("countSort : " + secDiffTime);
 	}
 }
