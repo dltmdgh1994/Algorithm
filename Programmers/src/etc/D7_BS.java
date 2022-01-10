@@ -61,7 +61,7 @@ public class D7_BS {
 		return -1; // Å½»ö ½ÇÆÐ
 	}
 	
-	public void D7_8(){
+	public void D7_8() { // ¶±ººÀÌ ¶± ¸¸µé±â
 		int answer = 0;
 		
 		try {
