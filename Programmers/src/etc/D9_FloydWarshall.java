@@ -2,6 +2,8 @@ package etc;
 
 import java.io.*;
 
+// 플로이드 워샬 알고리즘
+// 모든 노드에 대하여 다른 모든 노드까지의 최단거리 => O(N^3)
 public class D9_FloydWarshall {
 	
 	BufferedReader br;
