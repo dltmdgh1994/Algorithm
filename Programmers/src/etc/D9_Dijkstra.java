@@ -3,7 +3,9 @@ package etc;
 import java.io.*;
 import java.util.*;
 
-public class D9_Dijkstra {
+// 딕스트라 알고리즘
+// 출발 노드 1개에서 다른 모든 노드까지의 최단거리 => O(ElogN)
+public class D9_Dijkstra { 
 
 	BufferedReader br;
 	BufferedWriter bw;
