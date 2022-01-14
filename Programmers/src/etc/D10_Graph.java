@@ -104,7 +104,9 @@ public class D10_Graph {
 		}
 	}
 	
-	private void D10_Kruscal() { // 크루스칼 알고리즘
+	// 크루스칼 알고리즘
+	// 가장 적은 비용으로 모든 노드를 연결하는 알고리즘
+	private void D10_Kruscal() { 
 		try {
 			br = new BufferedReader(new InputStreamReader(System.in));
 			bw = new BufferedWriter(new OutputStreamWriter(System.out));
