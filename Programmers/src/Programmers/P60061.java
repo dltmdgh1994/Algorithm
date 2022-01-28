@@ -21,143 +21,131 @@ public class P60061 { // 3 기둥과 보 설치
 	// a => 기둥 : 0, 보 : 1
 	// b => 삭제 : 0, 설치 : 1
     public int[][] solution(int n, int[][] build_frame) {
-        
-        int[][] map = new int[n+1][n+1]; // 무언가 설치되면 1
-        int[][] pillar = new int[n+1][n+1]; // 기둥
-        int[][] bridge = new int[n+1][n+1]; // 보
+    	
+    	ArrayList<Structure> arr = new ArrayList<>();
         
         for(int i = 0; i < build_frame.length; i++) {
-        	int x = build_frame[i][0];
-        	int y = build_frame[i][1];
-        	int a = build_frame[i][2];
-        	int b = build_frame[i][3];
+        	Structure structure = new Structure(build_frame[i][0], build_frame[i][1], build_frame[i][2]);
+        	int op = build_frame[i][3];
         	
-        	if(b == 1) { // 설치
-        		
-        		if(a == 0) { // 기둥
-        			if(y == 0) { // 바닥
-        				map[y][x] = 1;
-        				pillar[y][x] = 1;
-        			}else { // 바닥 아닌 경우
-        				if(pillar[y-1][x] == 1) { // 기둥 위
-        					map[y][x] = 1;
-            				pillar[y][x] = 1;
-        				}else { // 보 위
-        					if(x == 0) {
-        						if(bridge[y][x] == 1) {
-        							map[y][x] = 1;
-        	        				pillar[y][x] = 1;
-        						}
-        					}else if(x == n) {
-        						if(bridge[y][x-1] == 1) {
-        							map[y][x] = 1;
-        	        				pillar[y][x] = 1;
-        						}
-        					}else {
-        						if(bridge[y][x] == 1 && bridge[y][x-1] == 0) {
-        							map[y][x] = 1;
-        	        				pillar[y][x] = 1;
-        						}else if(bridge[y][x] == 0 && bridge[y][x-1] == 1) {
-        							map[y][x] = 1;
-        	        				pillar[y][x] = 1;
-        						}
-        					}
-        				}
-        			}
-    			}else { // 보
-    				if(pillar[y-1][x] == 1) {
-    					map[y][x] = 1;
-        				bridge[y][x] = 1;
-    				}else if(pillar[y-1][x+1] == 1) {
-    					map[y][x] = 1;
-        				bridge[y][x] = 1;
-    				}else { // 양 끝 보
-    					if(x > 0 && x < n) {
-    						if(bridge[y][x-1] == 1 && bridge[y][x+1] == 1) {
-    							map[y][x] = 1;
-    	        				bridge[y][x] = 1;
-    						}
-    					}
-    				}
-    			}
-        	}else if(b == 0) { // 삭제
-        		
-        		if(a == 0) { // 기둥
-        			if(x == 0) {
-        				if(map[y+1][x] == 0) {
-        					map[y][x] = 0;
-        					pillar[y][x] = 0;
-        				}else {
-        					if(bridge[y+1][x] == 1) {
-        						if(bridge[y+1][x+1] == 1) {
-        							if(pillar[y][x+1] == 1 || pillar[y][x+2] == 1) {
-        								map[y][x] = 0;
-        	        					pillar[y][x] = 0;
-        							}
-        						}else {
-        							if(pillar[y][x+1] == 1) {
-        								map[y][x] = 0;
-        	        					pillar[y][x] = 0;
-        							}
-        						}
-        					}
-        				}
-        			}else if(x == n) {
-        				
-        			}else {
-        				if(pillar[y+1][x] == 0) {
-        					if(bridge[y+1][x] == 1 && bridge[y+1][x-1] == 1 && bridge[y+1][x+1] == 1) {
-        						map[y][x] = 0;
-	        					pillar[y][x] = 0;
-        					}
-        				}
-        			}
-        		}else { // 보
-        			if(pillar[y-1][x] == 1 && pillar[y-1][x+1] == 1) {
-        				map[y][x] = 0;
-    					bridge[y][x] = 0;
-        			}else if(pillar[y-1][x] == 1 && pillar[y-1][x+1] == 0){
-        				if(x == n-1) {
-        					map[y][x] = 0;
-        					bridge[y][x] = 0;
-        				}else {
-        					if(bridge[y][x+1] == 1 && pillar[y-1][x+2] == 1) {
-        						map[y][x] = 0;
-            					bridge[y][x] = 0;
-        					}
-        				}
-        			}else if(pillar[y-1][x] == 0 && pillar[y-1][x+1] == 1) {
-        				if(x == 0) {
-        					map[y][x] = 0;
-        					bridge[y][x] = 0;
-        				}else {
-        					if(bridge[y][x-1] == 1 && pillar[y-1][x-1] == 1) {
-        						map[y][x] = 0;
-            					bridge[y][x] = 0;
-        					}
-        				}
-        			}
+        	if(op == 1) { // 설치
+        		arr.add(structure);
+        		if(!check(arr)) {
+        			arr.remove(structure);
+        		}
+        	}else if(op == 0) { // 삭제
+        		arr.remove(structure);
+        		if(!check(arr)) {
+        			arr.add(structure);
         		}
         	}
         }
         
-        ArrayList<int[]> ans = new ArrayList<>();
-        for(int j = 0; j < n+1; j++) {
-        	for(int i = 0; i < n+1; i++) {
-        		if(pillar[i][j] == 1) {
-        			ans.add(new int[] {j,i,0});
-        		}
-        		if(bridge[i][j] == 1) {
-        			ans.add(new int[] {j,i,1});
-        		}
-        	}
-        }
-        
-        int[][] answer = new int[ans.size()][];
-        for(int i = 0; i < ans.size(); i++) {
-        	answer[i] = ans.get(i);
+        arr.sort(null);
+        int[][] answer = new int[arr.size()][3];
+        for(int i = 0; i < arr.size(); i++) {
+        	answer[i][0] = arr.get(i).getX();
+        	answer[i][1] = arr.get(i).getY();
+        	answer[i][2] = arr.get(i).getS();
         }
         
         return answer;
     }
+    
+    private boolean check(ArrayList<Structure> arr) {
+    	
+    	for(Structure structure : arr) {
+    		int x = structure.getX();
+    		int y = structure.getY();
+    		int s = structure.getS();
+    		
+    		if(s == 0) { // 기둥
+    			if(y == 0 || arr.contains(new Structure(x-1, y, 1)) 
+    					|| arr.contains(new Structure(x, y, 1))
+    					|| arr.contains(new Structure(x, y-1, 0))) {
+    				continue;
+    			}
+    			return false;
+    		}else { // 보
+    			if(arr.contains(new Structure(x, y-1, 0)) ||
+    					arr.contains(new Structure(x+1, y-1, 0)) ||
+    					(arr.contains(new Structure(x-1, y, 1)) &&
+    					arr.contains(new Structure(x+1, y, 1)))) {
+    				continue;
+    			}
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+    }
+}
+
+class Structure implements Comparable<Structure>{
+	int x;
+	int y;
+	int s;
+	
+	public Structure(int x, int y, int s) {
+		this.x = x;
+		this.y = y;
+		this.s = s;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getS() {
+		return s;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + s;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Structure structure = (Structure) obj;
+		if(structure.x == this.x && structure.y == this.y
+				&& structure.s == this.s) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	@Override
+	public int compareTo(Structure o) {
+		// TODO Auto-generated method stub
+		if(this.x < o.getX()) {
+			return -1;
+		}else if(this.x > o.getX()) {
+			return 1;
+		}else {
+			if(this.y < o.getY()) {
+				return -1;
+			}else if(this.y > o.getY()) {
+				return 1;
+			}else {
+				if(this.s < o.getS()) {
+					return -1;
+				}else if(this.s > o.getS()) {
+					return 1;
+				}else {
+					return 0;
+				}
+			}
+		}
+	}
 }
