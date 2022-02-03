@@ -294,4 +294,38 @@ public class DQ_Implement {
 		
 		return direction;
 	}
+	
+	public void Q13() { // 치킨 배달
+		try {
+			br = new BufferedReader(new InputStreamReader(System.in));
+			bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+			int ans = Integer.MAX_VALUE;
+			
+			String[] s = br.readLine().split(" ");
+			int n = Integer.parseInt(s[0]);
+			int m = Integer.parseInt(s[1]);
+			
+			int[][] map = new int[n][n];
+			int cnt = 0;
+			for(int i = 0; i < n; i++) {
+				s = br.readLine().split(" ");
+				for(int j = 0; j < n; j++) {
+					map[i][j] = Integer.parseInt(s[j]);
+					
+					if(map[i][j] == 2) cnt++;
+				}
+			}
+			
+			for(int i = cnt; i > m; i--) {
+				
+			}
+			
+			br.close();
+			bw.close();
+		}catch(IOException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+	}
 }
