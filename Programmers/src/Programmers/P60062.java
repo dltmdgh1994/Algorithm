@@ -54,7 +54,7 @@ public class P60062 { // 3 외벽 점검
     private void distPermutation(int[] dist, int[] distCase, boolean[] visited, int idx) {
     	
     	if(idx == dist.length) {
-    		// 모든 weak 케이스에 대한 모든 dist 케이스를 완점 탐색
+    		// 모든 weak 케이스에 대한 모든 dist 케이스를 완전 탐색
     		for(int[] wc : weakCase) {
     			checkWall(distCase, wc);
     		}
@@ -67,7 +67,6 @@ public class P60062 { // 3 외벽 점검
     			visited[i] = true;
     			distCase[idx] = dist[i];
     			distPermutation(dist, distCase, visited, idx+1);
-    			distCase[idx] = 0;
     			visited[i] = false;
     		}
     	}
