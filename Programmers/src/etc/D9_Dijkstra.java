@@ -66,6 +66,53 @@ public class D9_Dijkstra {
 			for(int i = 0; i < nodeN; i++) {
 				bw.write(Integer.toString(distance[i]) + " ");
 			}
+			bw.newLine();
+			
+			// 우선순위 큐 사용하지 않고
+			distance = new int[nodeN];
+			boolean[] visited = new boolean[nodeN];
+			for(int i = 0; i < nodeN; i++) {
+				distance[i] = Integer.MAX_VALUE;
+			}
+			
+			distance[start-1] = 0;
+			visited[start-1] = true;
+			
+			// 시작점에서 거리 갱신
+			for(int i = 0; i < nodeN; i++) {
+				if(!visited[i] && graph[start-1][i] != 0) {
+					distance[i] = graph[start-1][i];
+				}
+			}
+			
+			for(int i = 0; i < nodeN-1; i++) {
+				int min = Integer.MAX_VALUE;
+				int minIdx = -1;
+				
+				// 최소 연결 노드 찾기
+				for(int j = 0; j < nodeN; j++) {
+					if(!visited[j] && distance[j] != Integer.MAX_VALUE) {
+						if(distance[j] < min) {
+							min = distance[j];
+							minIdx = j;
+						}
+					}
+				}
+				
+				visited[minIdx] = true;
+				// 최소 연결 노드에서 거리 갱신
+				for(int j = 0; j < nodeN; j++) {
+					if(!visited[j] && graph[minIdx][j] != 0) {
+						if(distance[j] > distance[minIdx]+graph[minIdx][j]) {
+							distance[j] = distance[minIdx]+graph[minIdx][j];
+						}
+					}
+				}
+			}
+			
+			for(int i = 0; i < nodeN; i++) {
+				bw.write(Integer.toString(distance[i]) + " ");
+			}
 
 			br.close();
 			bw.close();
