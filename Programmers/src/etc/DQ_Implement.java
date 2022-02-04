@@ -15,7 +15,8 @@ public class DQ_Implement {
 		// dq.Q7();
 		// dq.Q8();
 		// dq.Q9();
-		dq.Q11();
+		// dq.Q11();
+		dq.Q13();
 	}
 	
 	public void Q7() { // 럭키 스트레이트
@@ -301,25 +302,50 @@ public class DQ_Implement {
 			bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 			int ans = Integer.MAX_VALUE;
+			ArrayList<int[]> house = new ArrayList<>(); // 집 좌표
+			ArrayList<int[]> chicken = new ArrayList<>(); // 치킨집 좌표
 			
 			String[] s = br.readLine().split(" ");
 			int n = Integer.parseInt(s[0]);
 			int m = Integer.parseInt(s[1]);
 			
 			int[][] map = new int[n][n];
-			int cnt = 0;
 			for(int i = 0; i < n; i++) {
 				s = br.readLine().split(" ");
 				for(int j = 0; j < n; j++) {
 					map[i][j] = Integer.parseInt(s[j]);
 					
-					if(map[i][j] == 2) cnt++;
+					if(map[i][j] == 2) {
+						chicken.add(new int[] {i,j}); 
+					}else if(map[i][j] == 1) {
+						house.add(new int[] {i,j}); 
+					}
 				}
 			}
 			
-			for(int i = cnt; i > m; i--) {
-				
+			int[] arr = new int[chicken.size()];
+			boolean[] visited = new boolean[chicken.size()];
+			for(int i = 0; i < arr.length; i++) {
+				arr[i] = i;
 			}
+			
+			// 치킨집 조합 구하기
+			Combination comb = new Combination(chicken.size());
+			comb.comb(arr, visited, 0, m);
+			ArrayList<ArrayList<Integer>> result = comb.getResult();
+			
+			// 치킨집 조합 후보 중 거리 최소 찾기
+			for(ArrayList<Integer> candidate : result) {
+				ArrayList<int[]> tmp = new ArrayList<>();
+				for(int i : candidate) {
+					tmp.add(chicken.get(i));
+				}
+				
+				int dist = getDist(house, tmp);
+				if(ans > dist) ans = dist; 
+			}
+			
+			bw.write(Integer.toString(ans));
 			
 			br.close();
 			bw.close();
@@ -327,5 +353,20 @@ public class DQ_Implement {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	private int getDist(ArrayList<int[]> house, ArrayList<int[]> chicken) {
+		int dist = 0;
+		
+		for(int[] h : house) {
+			int tmp = Integer.MAX_VALUE;
+			for(int[] c : chicken) {
+				int d = Math.abs(h[0]-c[0]) + Math.abs(h[1]-c[1]);
+				if(tmp > d) tmp = d;
+			}
+			dist += tmp;
+		}
+		
+		return dist;
 	}
 }
