@@ -3,19 +3,19 @@ package etc;
 import java.io.*;
 import java.util.*;
 
-public class DQ_DFSBFS {
+public class DQ_15 {
 	
 	BufferedReader br;
 	BufferedWriter bw;
 
 	public static void main(String[] args) {
 		
-		DQ_DFSBFS dq = new DQ_DFSBFS();
+		DQ_15 dq = new DQ_15();
 		
-		dq.Q15();
+		dq.sol();
 	}
 	
-	public void Q15() { // 특정 거리의 도시 찾기
+	public void sol() { // 특정 거리의 도시 찾기
 		
 		try {
 			br = new BufferedReader(new InputStreamReader(System.in));
