@@ -8,8 +8,8 @@ public class DQ_20 { // 감시 피하기
 	BufferedWriter bw;
 	
 	int n;
-	int[][] map;
-	int[][] tmp;
+	int[][] map; // 원본 배열
+	int[][] tmp; // 장애물 배치 후 배열
 	boolean ans = false;
 
 	public static void main(String[] args) {
@@ -25,17 +25,17 @@ public class DQ_20 { // 감시 피하기
 			br = new BufferedReader(new InputStreamReader(System.in));
 			bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-			String[] s = br.readLine().split(" ");
-			int n = Integer.parseInt(s[0]);
+			n = Integer.parseInt(br.readLine());
 			
-			int[][] map = new int[n][n];
+			map = new int[n][n];
+			tmp = new int[n][n];
 
 			for(int i = 0; i < n; i++) {
-				s = br.readLine().split(" ");
+				String[] s = br.readLine().split(" ");
 				for(int j = 0; j < n; j++) {
-					if(s[i].equals("X")) {
+					if(s[j].equals("X")) {
 						map[i][j] = 0;
-					}else if(s[i].equals("S")) {
+					}else if(s[j].equals("S")) {
 						map[i][j] = 1;
 					}else {
 						map[i][j] = 2;
@@ -72,8 +72,10 @@ public class DQ_20 { // 감시 피하기
 			boolean isStudent = false;
 			for(int i = 0; i < n; i++) {
 				for(int j = 0; j < n; j++) {
-					if(!check(i,j)) {
-						isStudent = true;
+					if(tmp[i][j] == 2) {
+						if(!check(i,j)) {
+							isStudent = true;
+						}
 					}
 				}
 			}
@@ -131,6 +133,6 @@ public class DQ_20 { // 감시 피하기
 			}
 		}
 		
-		return true;
+		return true; // 감시에 안 걸림
 	}
 }
