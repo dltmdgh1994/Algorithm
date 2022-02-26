@@ -18,7 +18,9 @@ public class D10_Graph {
 		p.D10_Kruscal();
 	}
 	
-	public void D10_1() { // 서로소 집합 알고리즘
+	// 서로소 집합 알고리즘
+	// 서로소 집합 : 공통 원소가 없는 두 집합
+	public void D10_1() { 
 		
 		try {
 			br = new BufferedReader(new InputStreamReader(System.in));
