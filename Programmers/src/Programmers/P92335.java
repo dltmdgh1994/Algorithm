@@ -1,7 +1,5 @@
 package Programmers;
 
-import java.util.HashSet;
-
 public class P92335 { // 2 k진수에서 소수 개수 구하기
 
 	public static void main(String[] args) {
@@ -45,8 +43,9 @@ public class P92335 { // 2 k진수에서 소수 개수 구하기
     
     private boolean isPrime(long n) {
     	if(n == 1) return false;
+    	if(n == 2 || n == 3) return true;
     	
-    	for(long i = 2; i < Math.sqrt(n); i++) {
+    	for(long i = 2; i < Math.sqrt(n)+1; i++) {
     		if(n % i == 0) return false;
     	}
     	
