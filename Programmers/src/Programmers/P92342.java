@@ -9,8 +9,8 @@ public class P92342 { // 2 양궁대회
 		
 		P92342 p = new P92342();
 		
-		int[] info = {2,1,1,1,0,0,0,0,0,0,0};
-		int[] ans = p.solution(5, info);
+		int[] info = {9,1,0,0,0,0,0,0,0,0,0};
+		int[] ans = p.solution(10, info);
 		
 		for(int i : ans) {
 			System.out.print(i + " ");
@@ -21,33 +21,54 @@ public class P92342 { // 2 양궁대회
 	int diffScore = 0;
 	
     public int[] solution(int n, int[] info) {
-    	
     	candidate = new ArrayList<>();
-    	
+    	int[] ans = new int[] {-1};
+
     	int[] result = new int[info.length];
-    	findCandidate(n, info, 9, result);
+    	dfs(n, info, 0, result);
     	
     	if(candidate.size() == 0) {
-    		return new int[] {-1};
+    		return ans;
     	}
     	
-        int[] answer = candidate.get(0);
-        return answer;
-    }
-    
-    private void findCandidate(int n, int[] info, int idx, int[] result) {
+    	int max = 0;
+    	int ansIdx = 0;
     	
-    	if(n == 0 || idx < 0) {
-    		if(idx < 0 && n != 0) {
-    			result[0] = n;
+    	// 라이언이 가장 큰 점수 차이로 우승할 수 있는 방법이 
+    	// 여러 가지 일 경우, 가장 낮은 점수를 더 많이 맞힌 경우
+    	for(int i = info.length-1; i >= 0; i--) {
+    		max = 0;
+    		ansIdx = 0;
+    		boolean pass = true;
+    		for(int j = 0; j < candidate.size(); j++) {
+    			int[] arr = candidate.get(j);
+    			
+    			if(arr[i] > max) {
+    				max = arr[i];
+    				ansIdx = j;
+    				pass = false;
+    			}else if(arr[i] == max && max != 0) {
+    				pass = true;
+    			}
     		}
     		
+    		if(max != 0 && !pass) break;
+    	}
+    	
+    	ans = candidate.get(ansIdx);
+    	
+        return ans;
+    }
+    
+    private void dfs(int n, int[] info, int idx, int[] result) {
+    	
+    	if(n == 0) {
 			int aScore = 0;
 			int lScore = 0;
 			
-			for(int i = 10; i >= 1; i--) {
-				if(info[10-i] != 0 || result[10-i] != 0) {
-					if(info[10-i] >= result[10-i]) {
+			for(int i = 11; i >= 1; i--) {
+				if(info[11-i] != 0 || result[11-i] != 0) {
+					if(info[11-i] >= result[11-i]) {
 						aScore += i;
 					}else {
 						lScore += i;
@@ -59,25 +80,19 @@ public class P92342 { // 2 양궁대회
 				if((lScore - aScore) > diffScore) {
 					candidate.clear();
 					candidate.add(Arrays.copyOf(result, result.length));
-					diffScore = (lScore - aScore);
-//					for(int i : result) {
-//						System.out.print(i + " ");
-//					}
-//					System.out.println(diffScore + " clear");
-				}else if((lScore - aScore) == diffScore) {
+					diffScore = lScore - aScore;
+				}else if((lScore - aScore) == diffScore){
 					candidate.add(Arrays.copyOf(result, result.length));
 				}
 			}
+			
+			return;
     	}
     	
-    	for(int i = idx; i >= 0; i--) {
-    		if(info[i] < n) {
-    			result[i] = info[i]+1;
-    			findCandidate(n-result[i], info, i-1, result);
-    		}else {
-    			findCandidate(n, info, i-1, result);
-    		}
-    		result[i] = 0;
+    	for(int i = idx; i < info.length && result[i] <= info[i]; i++) {
+    		result[i]++;
+    		dfs(n-1, info, idx, result);
+    		result[i]--;
     	}
     }
 }
