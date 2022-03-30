@@ -2,8 +2,6 @@ package Programmers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class P92343 { // 3 양과 늑대
 	
@@ -14,11 +12,11 @@ public class P92343 { // 3 양과 늑대
 		int[] info = {0,0,1,1,1,0,1,0,1,0,1,1};
 		int[][] edges = {{0,1},{1,2},{1,4},{0,8},{8,7},{9,10},{9,11},{4,3},{6,5},{4,6},{8,9}};
 
+		System.out.println(p.solution(info, edges));
 	}
 	
 	ArrayList<ArrayList<Integer>> tree;
-	int sCnt = 1;
-	int wCnt = 0;
+	int ans = 0;
 	
     public int solution(int[] info, int[][] edges) {
     	
@@ -32,17 +30,23 @@ public class P92343 { // 3 양과 늑대
     		tree.get(edge[0]).add(edge[1]);
     	}
     	
-    	int[] possiNode = new int[info.length];
+    	int[] possiNode = new int[info.length]; // 접근 가능 노드
+    	dfs(info, 0, possiNode, 1, 0);
     	
-        return sCnt;
+        return ans;
     }
     
-    private void dfs(int[] info, int node, int[] possiNode) {
+    private void dfs(int[] info, int node, int[] possiNode, int sCnt, int wCnt) {
     	
     	if(sCnt == wCnt) {
     		return;
     	}
     	
+    	if(sCnt > ans) {
+    		ans = sCnt;
+    	}
+    	
+    	// 깊은 복사를 통해 접근 가능한 노드 갱신
     	int[] tmp = Arrays.copyOf(possiNode, possiNode.length);
     	tmp[node] = 0;
     	
@@ -51,12 +55,12 @@ public class P92343 { // 3 양과 늑대
     		tmp[c] = 1;
     	}
     	
-    	for(int i = 0; i < possiNode.length; i++) {
-    		if(possiNode[i] == 1) {
+    	for(int i = 0; i < tmp.length; i++) {
+    		if(tmp[i] == 1) {
     			if(info[i] == 0) {
-    				dfs(info, i, tmp);
+    				dfs(info, i, tmp, sCnt+1, wCnt);
     			}else {
-    				dfs(info, i, tmp);
+    				dfs(info, i, tmp, sCnt, wCnt+1);
     			}
     		}
     	}
